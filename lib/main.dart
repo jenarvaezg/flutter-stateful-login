@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stateful_login/screens/login_screen.dart';
+import 'package:flutter_login_poc/screens/home_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -9,7 +9,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Log me in!',
-      home: LoginScreen(),
+      home: HomeScreen(),
     );
   }
 }
+
+

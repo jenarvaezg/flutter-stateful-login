@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:stateful_login/mixins/validation_mixin.dart';
+import 'package:flutter_login_poc/mixins/validation_mixin.dart';
 
-class LoginScreen extends StatefulWidget {
-  LoginScreen({Key key}) : super(key: key);
+class StatefulLoginScreen extends StatefulWidget {
+  StatefulLoginScreen({Key key}) : super(key: key);
 
-  final String title = 'Log me in!';
+  final String title = 'Log me in with a StatefulWidget!';
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _StatefulLoginScreenState createState() => _StatefulLoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> with ValidationMixin {
+class _StatefulLoginScreenState extends State<StatefulLoginScreen> with ValidationMixin {
   FocusNode _emailFocusNode;
   FocusNode _passwordFocusNode;
   String _email = '';
