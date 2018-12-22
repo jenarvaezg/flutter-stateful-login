@@ -18,3 +18,5 @@ class LoginBloc with ValidationMixin {
     _passwordController.close();
   }
 }
+
+final loginBloc = LoginBloc();

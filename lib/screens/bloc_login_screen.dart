@@ -7,36 +7,45 @@ class BLoCLoginScreen extends StatelessWidget {
   final String title = 'Log me in with a BLoC!';
   final FocusNode _emailFocusNode = FocusNode();
   final FocusNode _passwordFocusNode = FocusNode();
-  final LoginBloc bloc = LoginBloc();
-  
 
   Widget emailField(BuildContext context) {
-    return TextField(
-      autofocus: true,
-      focusNode: _emailFocusNode,
-      keyboardType: TextInputType.emailAddress,
-      decoration: InputDecoration(
-        icon: Icon(Icons.email),
-        hintText: 'you@example.com',
-        labelText: 'Email Address',
-      ),
-      onChanged: (String value) {
-        bloc.changeEmail(value);
+    return StreamBuilder(
+      stream: loginBloc.email,
+      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+        return TextField(
+          autofocus: true,
+          focusNode: _emailFocusNode,
+          keyboardType: TextInputType.emailAddress,
+          decoration: InputDecoration(
+            errorText: snapshot.error,
+            icon: Icon(Icons.email),
+            hintText: 'you@example.com',
+            labelText: 'Email Address',
+          ),
+          onChanged: loginBloc.changeEmail,
+          onSubmitted: (_) =>
+              FocusScope.of(context).requestFocus(_passwordFocusNode),
+        );
       },
-      onSubmitted: (_) =>
-          FocusScope.of(context).requestFocus(_passwordFocusNode),
     );
   }
 
-  Widget passwordField(BuildContext context)  {
-    return TextField(
-      focusNode: _passwordFocusNode,
-      obscureText: true,
-      decoration: InputDecoration(
-        icon: Icon(Icons.lock),
-        hintText: '******',
-        labelText: 'Password',
-      ),
+  Widget passwordField(BuildContext context) {
+    return StreamBuilder(
+      stream: loginBloc.password,
+      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+        return TextField(
+          focusNode: _passwordFocusNode,
+          obscureText: true,
+          decoration: InputDecoration(
+            errorText: snapshot.error,
+            icon: Icon(Icons.lock),
+            hintText: '******',
+            labelText: 'Password',
+          ),
+          onChanged: loginBloc.changePassword,
+        );
+      },
     );
   }
 
@@ -44,8 +53,7 @@ class BLoCLoginScreen extends StatelessWidget {
     return RaisedButton(
       child: Text('Submit'),
       color: Colors.blueAccent,
-      onPressed: () {
-      },
+      onPressed: () {},
     );
   }
 
@@ -57,14 +65,14 @@ class BLoCLoginScreen extends StatelessWidget {
       ),
       body: Container(
         margin: EdgeInsets.all(20),
-          child: Column(
-            children: <Widget>[
-              emailField(context),
-              passwordField(context),
-              Container(margin: EdgeInsets.only(bottom: 25)),
-              submitButton(context),
-            ],
-          ),
+        child: Column(
+          children: <Widget>[
+            emailField(context),
+            passwordField(context),
+            Container(margin: EdgeInsets.only(bottom: 25)),
+            submitButton(context),
+          ],
+        ),
       ),
     );
   }

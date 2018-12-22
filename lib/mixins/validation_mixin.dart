@@ -10,7 +10,7 @@ class ValidationMixin {
   get validateEmailTransformer => StreamTransformer<String, String>.fromHandlers(
     handleData: (String value, EventSink<String> sink) {
       final errorText = validateEmail(value);
-      if (errorText.isEmpty) {
+      if (errorText == null) {
         sink.add(value);
       } else {
         sink.addError(errorText);
@@ -19,13 +19,13 @@ class ValidationMixin {
   );
 
   String validatePassword(String value) {
-    return value.length > 8 ? null : "Password must have at least 8 characters";
+    return value.length >= 8 ? null : "Password must have at least 8 characters";
   }
 
   get validatePasswordTransformer => StreamTransformer<String, String>.fromHandlers(
     handleData: (String value, EventSink<String> sink) {
       final errorText = validatePassword(value);
-      if (errorText.isEmpty) {
+      if (errorText == null ) {
         sink.add(value);
       } else {
         sink.addError(errorText);
