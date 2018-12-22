@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_login_poc/blocs/login_bloc_provider.dart';
 import 'package:flutter_login_poc/screens/bloc_login_screen.dart';
 import 'package:flutter_login_poc/screens/stateful_login_screen.dart';
 
@@ -36,7 +37,9 @@ class HomeScreen extends StatelessWidget {
             ),
             pageChangeButton(
               context,
-              BLoCLoginScreen(),
+              LoginProvider(
+                child: BLoCLoginScreen(),  
+              ),
               Text('Go to BLoC Login'),
             ),
           ],

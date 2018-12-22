@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:flutter_login_poc/mixins/validation_mixin.dart';
+import 'package:flutter_login_poc/blocs/login_validator.dart';
 
-class LoginBloc with ValidationMixin {
-  final StreamController _emailController = StreamController<String>();
-  final StreamController _passwordController = StreamController<String>();
+class LoginBloc extends Object with LoginBlocValidator {
+  final StreamController _emailController = StreamController<String>.broadcast();
+  final StreamController _passwordController = StreamController<String>.broadcast();
 
 
   Function(String) get changeEmail => _emailController.sink.add;
@@ -18,5 +18,3 @@ class LoginBloc with ValidationMixin {
     _passwordController.close();
   }
 }
-
-final loginBloc = LoginBloc();

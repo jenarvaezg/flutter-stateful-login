@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_login_poc/blocs/login_bloc.dart';
+import '../blocs/login_bloc_provider.dart';
 
 class BLoCLoginScreen extends StatelessWidget {
   BLoCLoginScreen({Key key}) : super(key: key);
 
   final String title = 'Log me in with a BLoC!';
-  final FocusNode _emailFocusNode = FocusNode();
-  final FocusNode _passwordFocusNode = FocusNode();
 
   Widget emailField(BuildContext context) {
+    final loginBloc = LoginProvider.of(context);
     return StreamBuilder(
       stream: loginBloc.email,
       builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
         return TextField(
           autofocus: true,
-          focusNode: _emailFocusNode,
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
             errorText: snapshot.error,
@@ -23,24 +21,22 @@ class BLoCLoginScreen extends StatelessWidget {
             labelText: 'Email Address',
           ),
           onChanged: loginBloc.changeEmail,
-          onSubmitted: (_) =>
-              FocusScope.of(context).requestFocus(_passwordFocusNode),
         );
       },
     );
   }
 
   Widget passwordField(BuildContext context) {
+    final loginBloc = LoginProvider.of(context);
     return StreamBuilder(
       stream: loginBloc.password,
       builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
         return TextField(
-          focusNode: _passwordFocusNode,
           obscureText: true,
           decoration: InputDecoration(
             errorText: snapshot.error,
             icon: Icon(Icons.lock),
-            hintText: '******',
+            hintText: '********',
             labelText: 'Password',
           ),
           onChanged: loginBloc.changePassword,
