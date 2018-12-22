@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_login_poc/blocs/login_bloc.dart';
 import '../blocs/login_bloc_provider.dart';
 
 class BLoCLoginScreen extends StatelessWidget {
@@ -6,8 +7,7 @@ class BLoCLoginScreen extends StatelessWidget {
 
   final String title = 'Log me in with a BLoC!';
 
-  Widget emailField(BuildContext context) {
-    final loginBloc = LoginProvider.of(context);
+  Widget emailField(LoginBloc loginBloc) {
     return StreamBuilder(
       stream: loginBloc.email,
       builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
@@ -26,8 +26,7 @@ class BLoCLoginScreen extends StatelessWidget {
     );
   }
 
-  Widget passwordField(BuildContext context) {
-    final loginBloc = LoginProvider.of(context);
+  Widget passwordField(LoginBloc loginBloc) {
     return StreamBuilder(
       stream: loginBloc.password,
       builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
@@ -45,16 +44,23 @@ class BLoCLoginScreen extends StatelessWidget {
     );
   }
 
-  Widget submitButton(BuildContext context) {
-    return RaisedButton(
-      child: Text('Submit'),
-      color: Colors.blueAccent,
-      onPressed: () {},
+  Widget submitButton(LoginBloc loginBloc) {
+    return StreamBuilder(
+      stream: loginBloc.submitValid,
+      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+        return RaisedButton(
+          child: Text('Submit'),
+          color: Colors.blueAccent,
+          onPressed: snapshot.hasData ? loginBloc.submit : null,
+        );
+      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    LoginBloc loginBloc = LoginProvider.of(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
@@ -63,10 +69,10 @@ class BLoCLoginScreen extends StatelessWidget {
         margin: EdgeInsets.all(20),
         child: Column(
           children: <Widget>[
-            emailField(context),
-            passwordField(context),
+            emailField(loginBloc),
+            passwordField(loginBloc),
             Container(margin: EdgeInsets.only(bottom: 25)),
-            submitButton(context),
+            submitButton(loginBloc),
           ],
         ),
       ),

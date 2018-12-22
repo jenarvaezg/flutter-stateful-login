@@ -38,7 +38,7 @@ class HomeScreen extends StatelessWidget {
             pageChangeButton(
               context,
               LoginProvider(
-                child: BLoCLoginScreen(),  
+                child: BLoCLoginScreen(),
               ),
               Text('Go to BLoC Login'),
             ),
